@@ -442,7 +442,7 @@ void Dio_WritePort(Dio_PortType PortId, Dio_PortLevelType Level);
     /* Check if the used port is within the valid range */
     if(PortID >= DIO_CONFIGURED_PORTS)
     {
-        Det_ReportError(DIO_MODULE_ID, DIO_INSTANCE_ID,DIO_READ_PORT_SID, DIO_E_PARAM_INVALID_PORT_ID);
+        Det_ReportError(DIO_MODULE_ID, DIO_INSTANCE_ID,DIO_WRITE_PORT_SID, DIO_E_PARAM_INVALID_PORT_ID);
 
         Error = TRUE ;
     }
