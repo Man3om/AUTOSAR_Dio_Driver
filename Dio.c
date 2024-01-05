@@ -200,8 +200,8 @@ Dio_LevelType Dio_ReadChannel(Dio_ChannelType ChannelId)
         case 5:    Port_Ptr = &GPIO_PORTF_DATA_REG;
         break;
         }
-		
-		/* Read Level Of Channel */
+
+        /* Read Level Of Channel */
         if(BIT_IS_SET(*Port_Ptr,Dio_PortChannels[ChannelId].Ch_Num))
         {
             Level = STD_HIGH ;
@@ -319,8 +319,8 @@ Dio_LevelType Dio_FlipChannel(Dio_ChannelType ChannelId)
         case 5:    Port_Ptr = &GPIO_PORTF_DATA_REG;
         break;
         }
-		
-		/* Read Level Of Channel and Write to it */
+
+        /* Read Level Of Channel and Write to it */
         if(BIT_IS_SET(*Port_Ptr,Dio_PortChannels[ChannelId].Ch_Num))
         {
             CLEAR_BIT(*Port_Ptr,Dio_PortChannels[ChannelId].Ch_Num);
@@ -341,3 +341,138 @@ Dio_LevelType Dio_FlipChannel(Dio_ChannelType ChannelId)
     return Level ;
 }
 #endif
+
+/************************************************************************************
+ * Service Name: Dio_ReadPort
+ * Service ID[hex]: 0x02
+ * Sync/Async: Synchronous
+ * Reentrancy: Reentrant
+ * Parameters (in): PortId - ID of DIO Port.
+ * Parameters (inout): None
+ * Parameters (out): None
+ * Return value: Dio_PortLevelType
+ * Description: Returns the level of all channels of that port.
+ ************************************************************************************/
+Dio_PortLevelType Dio_ReadPort(Dio_PortType PortId)
+{
+    boolean Error = FALSE ;
+    Dio_PortLevelType PortLevel = 0x00 ;
+
+#if(DIO_DEV_ERROR_DETECT == STD_ON)
+
+    /* Check if the Driver is initialized before using this function */
+    if (DIO_NOT_INITIALIZED == Dio_Status)
+    {
+        Det_ReportError(DIO_MODULE_ID, DIO_INSTANCE_ID,DIO_READ_PORT_SID, DIO_E_UNINIT);
+        Error = TRUE;
+    }
+    else
+    {
+        /* No Action Required */
+    }
+    /* Check if the used port is within the valid range */
+    if(PortID >= DIO_CONFIGURED_PORTS)
+    {
+        Det_ReportError(DIO_MODULE_ID, DIO_INSTANCE_ID,DIO_READ_PORT_SID, DIO_E_PARAM_INVALID_PORT_ID);
+
+        Error = TRUE ;
+    }
+    else
+    {
+        /* No Action Required */
+    }
+#endif
+
+    if(Error != FALSE)
+    {
+        /* Store to the Data of correct PORT register according to the Port Id */
+        switch(PortId)
+        {
+        case 0:    PortLevel = GPIO_PORTA_DATA_REG;
+        break;
+        case 1:    PortLevel = GPIO_PORTB_DATA_REG;
+        break;
+        case 2:    PortLevel = GPIO_PORTC_DATA_REG;
+        break;
+        case 3:    PortLevel = GPIO_PORTD_DATA_REG;
+        break;
+        case 4:    PortLevel = GPIO_PORTE_DATA_REG;
+        break;
+        case 5:    PortLevel = GPIO_PORTF_DATA_REG;
+        break;
+        }
+    }
+    else
+    {
+        /* No Action Required */
+    }
+
+    return PortLevel;
+}
+
+
+/************************************************************************************
+ * Service Name: Dio_WritePort
+ * Service ID[hex]: 0x03
+ * Sync/Async: Synchronous
+ * Reentrancy: Reentrant
+ * Parameters (in): PortId - ID of DIO Port.
+                    Level - Value to be written.
+ * Parameters (inout): None
+ * Parameters (out): None
+ * Return value: None
+ * Description: Service to set a value of the port
+ ************************************************************************************/
+void Dio_WritePort(Dio_PortType PortId, Dio_PortLevelType Level);
+{
+    boolean Error = FALSE ;
+
+#if(DIO_DEV_ERROR_DETECT == STD_ON)
+    /* Check if the Driver is initialized before using this function */
+    if (DIO_NOT_INITIALIZED == Dio_Status)
+    {
+        Det_ReportError(DIO_MODULE_ID, DIO_INSTANCE_ID,DIO_WRITE_PORT_SID, DIO_E_UNINIT);
+        Error = TRUE;
+    }
+    else
+    {
+        /* No Action Required */
+    }
+
+    /* Check if the used port is within the valid range */
+    if(PortID >= DIO_CONFIGURED_PORTS)
+    {
+        Det_ReportError(DIO_MODULE_ID, DIO_INSTANCE_ID,DIO_READ_PORT_SID, DIO_E_PARAM_INVALID_PORT_ID);
+
+        Error = TRUE ;
+    }
+    else
+    {
+        /* No Action Required */
+    }
+#endif
+
+    if(Error != FALSE)
+    {
+        /* Set the Data to correct PORT register according to the Port Id */
+        switch(PortId)
+        {
+        case 0:    GPIO_PORTA_DATA_REG = Level;
+        break;
+        case 1:    GPIO_PORTB_DATA_REG = Level;
+        break;
+        case 2:    GPIO_PORTC_DATA_REG = Level;
+        break;
+        case 3:    GPIO_PORTD_DATA_REG = Level;
+        break;
+        case 4:    GPIO_PORTE_DATA_REG = Level;
+        break;
+        case 5:    GPIO_PORTF_DATA_REG = Level;
+        break;
+        }
+    }
+    else
+    {
+        /* No Action Required */
+    }
+}

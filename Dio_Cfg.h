@@ -35,12 +35,13 @@
 /* Pre-compile option for presence of Dio_FlipChannel API */
 #define DIO_FLIP_CHANNEL_API                (STD_ON)
 
-/* Number of the configured Dio Channels */
+/* Number of the configured Dio Channels & Ports */
 #define DIO_CONFIGURED_CHANNLES              (2U)
+#define DIO_CONFIGURED_PORTS                 (1U)
 
 /* Channel Index in the array of structures in Dio_PBcfg.c */
-#define DioConf_LED1_CHANNEL_ID_INDEX        (uint8)0x00
-#define DioConf_SW1_CHANNEL_ID_INDEX         (uint8)0x01
+#define DioConf_LED1_CHANNEL_ID_INDEX        (Dio_ChannelType)0x00
+#define DioConf_SW1_CHANNEL_ID_INDEX         (Dio_ChannelType)0x01
 
 /* DIO Configured Port ID's  */
 #define DioConf_LED1_PORT_NUM                (Dio_PortType)5 /* PORTF */
