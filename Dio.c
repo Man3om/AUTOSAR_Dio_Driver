@@ -383,7 +383,7 @@ Dio_PortLevelType Dio_ReadPort(Dio_PortType PortId)
     }
 #endif
 
-    if(Error != FALSE)
+    if(Error == FALSE)
     {
         /* Store to the Data of correct PORT register according to the Port Id */
         switch(PortId)
@@ -452,7 +452,7 @@ void Dio_WritePort(Dio_PortType PortId, Dio_PortLevelType Level);
     }
 #endif
 
-    if(Error != FALSE)
+    if(Error == FALSE)
     {
         /* Set the Data to correct PORT register according to the Port Id */
         switch(PortId)
